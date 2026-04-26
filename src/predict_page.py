@@ -20,7 +20,7 @@ MODEL_PATH = os.path.join(BASE_DIR, "models", "model.pkl")
 # -------------------------
 # Load model (cached)
 # -------------------------
-#@st.cache
+
 def load_model():
     model = joblib.load(MODEL_PATH)
     return model
@@ -128,11 +128,11 @@ def results():
     st.write(f"Married: {status}")
     
     #Displaying the condition of the petient
-    if condition:
-        st.write("Condition: You have malignant Cancer see a Medical Doctor for more information")
+    if condition  == 1:
+        st.write("Condition: You have malignant Cancer. See a Medical Doctor for more information")
 
-    else:
-        ("Condition: You have benign Cancer see a Medical Doctor for more information")
+    elif condition == 0:
+        st.write("Condition: You have benign Cancer. See a Medical Doctor for more information")
     st.write("")
     
     #Printing a message at the bottom when the button is pressed and when it's not
