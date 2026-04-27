@@ -3,18 +3,20 @@ import sys
 import streamlit as st
 import pickle 
 import json
+from pathlib import Path
 import joblib
 import numpy as np
-
 
 
 # -------------------------
 # The project root folder
 # -------------------------
-BASE_DIR = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), "..")
-)
-MODEL_PATH = os.path.join(BASE_DIR, "models", "model.pkl")
+
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+MODEL_PATH = BASE_DIR / "models" / "model.pkl"
+
 
 #Loading model
 # -------------------------
@@ -101,7 +103,14 @@ def show_predict_page():
                 input_features = input_features.astype(float)
                 input_features = np.reshape(input_features, (1, -1))
                 condition = model.predict(input_features)
-                st.session_state.condition = condition
+
+                if condition  == 1:
+                    mag = ("You have malignant Cancer. See a Medical Doctor for more information")
+                    st.session_state.mag = mag
+
+                elif condition == 0:
+                    bagnin = ("You have benign Cancer. See a Medical Doctor for more information")
+                    st.session_state.bagnin = bagnin
 
     except (ValueError):
         st.warning("Please note that only use numbers to fill in the form.")
@@ -119,21 +128,16 @@ def results():
     gender = st.session_state.get('gender', '')
     age = st.session_state.get('age', '')
     status = st.session_state.get('status', '')
-    condition = st.session_state.get('condition', '')
+    mag = st.session_state.get('mag', '')
+    bagnin = st.session_state.get('bagnin', '')
     submit_button = st.session_state.get('submit_button', '')
     
     #Writing to the screen the information which was entered
     st.write(f"Name: {first_name} {last_name}")
     st.write(f"Patient: {gender}, {age} years old")
     st.write(f"Married: {status}")
+    st.write(f"Condition: {mag} {bagnin}")
     
-    #Displaying the condition of the petient
-    if condition  == 1:
-        st.write("Condition: You have malignant Cancer. See a Medical Doctor for more information")
-
-    elif condition == 0:
-        st.write("Condition: You have benign Cancer. See a Medical Doctor for more information")
-    st.write("")
     
     #Printing a message at the bottom when the button is pressed and when it's not
     if submit_button:
