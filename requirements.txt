@@ -1,4 +1,5 @@
 Scikit-learn
 Pandas
 NumPy
-Stre
+joblib
+Streamlit
