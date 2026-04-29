@@ -14,7 +14,7 @@ data/
 
 # ML Models
 models/
-*.joblib
+
 
 # Environment variables
 .env
