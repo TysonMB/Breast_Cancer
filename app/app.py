@@ -11,9 +11,9 @@ from pages.about_page import show_about_page
 
   
 
-predict = st.Page(
+home = st.Page(
     "pages/predict_page.py",
-    title="Predict",
+    title="Home",
     icon="🏠" 
 )
 
@@ -29,11 +29,11 @@ contact = st.Page(
     icon="📊"
 ) 
 
-page = st.navigation([predict, about, contact])
+page = st.navigation([home, about, contact])
 
 page.run()
 
-if page == predict:
+if page == home:
     show_app_info_page()
     personnal_info()
     show_predict_page() 

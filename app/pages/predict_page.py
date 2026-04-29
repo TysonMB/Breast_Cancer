@@ -37,6 +37,7 @@ def show_app_info_page():
     st.write("""1.Fill out the form below (all the fields are required)""")
     st.write("""2.Check the required check-boxes for the final report""")
     st.write("""3.Submit once you are done to get a report (your data wont be shared)""")
+    st.write("""4.After submitting, refresh the page if you want to make another submission (to clear up the result of the previous submission)""")
 
 def personnal_info():
     st.subheader('Info')
@@ -84,6 +85,7 @@ def show_predict_page():
         update_data = {}
         for (key, value) in feature_names.items(): #Creating inputs of the form from the festure_name
             update_data[key] = st.text_input(key, value)
+            st.session_state.update_data = update_data
 
 
         submit_button = st.form_submit_button(label = "Submit")
@@ -105,11 +107,11 @@ def show_predict_page():
                 condition = model.predict(input_features)
 
                 if condition  == 1:
-                    mag = ("You have malignant Cancer. See a Medical Doctor for more information")
-                    st.session_state.mag = mag
+                    malignant = ("You have Malignant Cancer. See a Medical Doctor for more information")
+                    st.session_state.malignant = malignant
 
                 elif condition == 0:
-                    bagnin = ("You have benign Cancer. See a Medical Doctor for more information")
+                    bagnin = ("You have Benign Cancer. See a Medical Doctor for more information")
                     st.session_state.bagnin = bagnin
 
     except (ValueError):
@@ -128,20 +130,23 @@ def results():
     gender = st.session_state.get('gender', '')
     age = st.session_state.get('age', '')
     status = st.session_state.get('status', '')
-    mag = st.session_state.get('mag', '')
+    malignant = st.session_state.get('malignant', '')
     bagnin = st.session_state.get('bagnin', '')
+    update_data = st.session_state.get('update_data', '')
     submit_button = st.session_state.get('submit_button', '')
     
     #Writing to the screen the information which was entered
     st.write(f"Name: {first_name} {last_name}")
-    st.write(f"Patient: {gender}, {age} years old")
+    st.write(f"Gender: {gender}")
+    st.write(f"Age: {age} years old")
     st.write(f"Married: {status}")
-    st.write(f"Condition: {mag} {bagnin}")
+    st.write(f"Condition: {malignant} {bagnin}")
     
     
     #Printing a message at the bottom when the button is pressed and when it's not
     if submit_button:
-        st.write("""#### Your Information was Submitted Succesfully""")
+        if all (update_data.values()):
+            st.write("""#### Your Information was Submitted Succesfully""")
 
     else:
         st.write("""#### No Information Has Been Submitted Yet""")
