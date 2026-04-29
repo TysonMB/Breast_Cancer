@@ -19,8 +19,6 @@ models/
 # Environment variables
 .env
 
-# Streamlit
-.streamlit/
 
 # IDE
 .vscode/
