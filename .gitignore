@@ -12,9 +12,6 @@ env/
 data/
 *.csv
 
-# ML Models
-models/
-
 
 # Environment variables
 .env
